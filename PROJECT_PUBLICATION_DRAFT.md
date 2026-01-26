@@ -72,12 +72,22 @@ The system demonstrates high fidelity in retrieval.
 > *User*: "What frameworks are discussed for agentic AI?"
 > *Agent*: Retrieves Ready Tensor publication abstracts regarding specialized agent frameworks.
 
-## 6. Deployment Guide
+## 6. Interactive Web Interface
+To make the system accessible beyond the command line, we developed a modern web dashboard using **Streamlit** (`app.py`).
+
+**Key Features**:
+*   **Document Explorer**: A sidebar allows users to browse and read the raw content of ingested publications and essays.
+*   **Hyper-Parameter Tuning**: A real-time slider to adjust the retrieval depth (`k`) from 1 to 50, strictly for advanced analysis.
+*   **Source Transparency**: Every answer includes an expandable "Retrieved Sources" section, showing the exact text chunks used by the agent to generate the response.
+
+## 7. Deployment Guide
 To replicate this "Second Brain":
 
 1.  **Environment**: `pip install -r requirements.txt` (requires `langchain`, `chromadb`, `groq`).
 2.  **Ingestion**: Run `python ingest.py` to build the vector store from `project_1_publications.json` and `rag_systematic_review.txt`.
-3.  **Interaction**: Launch `python rag_bot.py` and query the agent in natural language.
+3.  **Interaction**:
+    *   **CLI Mode**: `python rag_bot.py`
+    *   **Web UI**: `streamlit run app.py`
 
 ## 7. Future Directions
 The next evolution of this project will involve **GraphRAG**—constructing a knowledge graph to explicitly model relationships between authors, concepts, and papers, further reducing the reliance on pure semantic proximity.
