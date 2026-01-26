@@ -1,3 +1,4 @@
+import script_fix_sqlite
 import streamlit as st
 import os
 import json
