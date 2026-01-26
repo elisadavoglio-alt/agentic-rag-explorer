@@ -32,7 +32,7 @@ graph TD
 Most RAG tutorials focus on loading simple PDFs. We architected a **Hybrid Ingestion Module** (`ingest.py`) capable of synthesizing heterogeneous data:
 
 *   **Structured Data**: JSON publications are parsed to exact fields (`title`, `description`).
-*   **Unstructured Knowledge**: Academic essays (e.g., `future_of_agentic_ai.txt`) are ingested raw.
+3.  **Unstructured Knowledge**: Academic essays (e.g., `rag_systematic_review.txt`) are ingested raw.
 
 The system uses `RecursiveCharacterTextSplitter` (chunk_size=1000, overlap=200) to ensure context continuity across both data types. We confirmed that `sentence-transformers/all-MiniLM-L6-v2` offers the best balance of speed and semantic capture for this mixed dataset.
 
@@ -76,7 +76,7 @@ The system demonstrates high fidelity in retrieval.
 To replicate this "Second Brain":
 
 1.  **Environment**: `pip install -r requirements.txt` (requires `langchain`, `chromadb`, `groq`).
-2.  **Ingestion**: Run `python ingest.py` to build the vector store from `project_1_publications.json` and `future_of_agentic_ai.txt`.
+2.  **Ingestion**: Run `python ingest.py` to build the vector store from `project_1_publications.json` and `rag_systematic_review.txt`.
 3.  **Interaction**: Launch `python rag_bot.py` and query the agent in natural language.
 
 ## 7. Future Directions

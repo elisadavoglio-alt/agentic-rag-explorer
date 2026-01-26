@@ -45,7 +45,7 @@ def ingest_data():
         docs.append(doc)
     
     # B. Caricamento del Saggio (Essay) Extra
-    essay_path = "04_RAG_Project/future_of_agentic_ai.txt"
+    essay_path = "04_RAG_Project/rag_systematic_review.txt"
     if os.path.exists(essay_path):
         print(f"Trovato saggio extra: {essay_path}")
         with open(essay_path, 'r', encoding='utf-8') as f:
@@ -53,7 +53,7 @@ def ingest_data():
             
         doc_essay = Document(
             page_content=essay_text,
-            metadata={"title": "Systematic Review of RAG 2025", "source": "Academic Essay"}
+            metadata={"title": "RAG Systems Review 2025", "source": "Academic Essay"}
         )
         docs.append(doc_essay)
     else:
