@@ -107,3 +107,4 @@ This Agentic RAG Framework was designed and implemented by **Elisa Davoglio**.
 Special thanks to:
 *   **Ready Tensor** for the foundational dataset and high-quality educational resources.
 *   The open-source community behind LangChain and Llama 3 for providing the building blocks of modern AI agents.
+*   **Agada Joseph Oche, Ademola Glory Folashade, Tirthankar Ghosal, and Arpan Biswas** for their research paper *"A Systematic Review of Key Retrieval-Augmented Generation (RAG) Systems: Progress, Gaps, and Future Directions"* (arXiv:2507.18910), which served as a primary source for the system's knowledge base.
