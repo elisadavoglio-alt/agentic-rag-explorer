@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+.venv/
+
+# Environment Variables (Secrets)
+.env
+
+# ChromaDB (Large Vector Database)
+04_RAG_Project/chroma_db/
+chroma_db/
+
+# macOS
+.DS_Store
+
+# Streamlit
+.streamlit/
