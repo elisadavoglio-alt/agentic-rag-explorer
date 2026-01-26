@@ -10,9 +10,11 @@ from langchain_core.documents import Document
 
 load_dotenv()
 
-# Percorsi
-JSON_PATH = "04_RAG_Project/project_1_publications.json"
-DB_PATH = "04_RAG_Project/chroma_db"
+# Percorsi Robusti (Cloud vs Local)
+BASE_DIR = "04_RAG_Project" if os.path.exists("04_RAG_Project") else "."
+JSON_PATH = os.path.join(BASE_DIR, "project_1_publications.json")
+ESSAY_PATH_REL = os.path.join(BASE_DIR, "rag_systematic_review.txt")
+DB_PATH = os.path.join(BASE_DIR, "chroma_db")
 
 def ingest_data():
     print("--- INIZIO INGESTION (Caricamento Dati) ---")
@@ -45,7 +47,7 @@ def ingest_data():
         docs.append(doc)
     
     # B. Caricamento del Saggio (Essay) Extra
-    essay_path = "04_RAG_Project/rag_systematic_review.txt"
+    essay_path = ESSAY_PATH_REL
     if os.path.exists(essay_path):
         print(f"Trovato saggio extra: {essay_path}")
         with open(essay_path, 'r', encoding='utf-8') as f:

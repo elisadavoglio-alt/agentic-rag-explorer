@@ -51,14 +51,19 @@ with col2:
     st.title("Ready Tensor & Academic RAG Explorer")
     st.caption("Semantic search engine powered by Llama 3 and ChromaDB")
 
+# Percorsi Robusti (Cloud vs Local)
+# Se siamo in cloud, la cartella 04_RAG_Project non esiste come sottocartella, siamo già dentro.
+BASE_DIR = "04_RAG_Project" if os.path.exists("04_RAG_Project") else "."
+JSON_PATH = os.path.join(BASE_DIR, "project_1_publications.json")
+DB_PATH = os.path.join(BASE_DIR, "chroma_db")
+
 # --- SIDEBAR: DOCUMENT EXPLORER ---
 with st.sidebar:
     st.header("📂 Document Library")
     
     # Load JSON for exploration
-    json_path = "04_RAG_Project/project_1_publications.json"
-    if os.path.exists(json_path):
-        with open(json_path, 'r') as f:
+    if os.path.exists(JSON_PATH):
+        with open(JSON_PATH, 'r') as f:
             data = json.load(f)
         
         titles = [item['title'] for item in data]
@@ -80,13 +85,17 @@ with st.sidebar:
     st.caption("Number of chunks retrieved per query.")
 
 # --- MOTORE RAG ---
-DB_PATH = "04_RAG_Project/chroma_db"
 
 @st.cache_resource
 def get_rag_chain():
     if not os.path.exists(DB_PATH):
-        st.error("⚠️ Database vettoriale non trovato. Esegui `ingest.py`!")
-        return None
+        st.warning("⚠️ Database vettoriale non trovato. Avvio Ingestion automatica (Cloud Mode)...")
+        # Importiamo e lanciamo l'ingestion al volo
+        from ingest import ingest_data
+        with st.spinner("⏳ Sto leggendo i documenti e creando il database... (Richiederà 1-2 minuti)"):
+            ingest_data()
+        st.success("✅ Database creato con successo! Ricarica la pagina se necessario.")
+        st.rerun()
 
     # 1. Embeddings
     embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
