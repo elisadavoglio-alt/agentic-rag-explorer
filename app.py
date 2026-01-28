@@ -57,27 +57,51 @@ BASE_DIR = "04_RAG_Project" if os.path.exists("04_RAG_Project") else "."
 JSON_PATH = os.path.join(BASE_DIR, "project_1_publications.json")
 DB_PATH = os.path.join(BASE_DIR, "chroma_db")
 
+ESSAY_PATH = os.path.join(BASE_DIR, "rag_systematic_review.txt")
+
 # --- SIDEBAR: DOCUMENT EXPLORER ---
 with st.sidebar:
     st.header("📂 Document Library")
     
-    # Load JSON for exploration
+    # 1. Preparazione Lista Titoli
+    titles = []
+    data = []
+    
+    # Carica JSON
     if os.path.exists(JSON_PATH):
         with open(JSON_PATH, 'r') as f:
             data = json.load(f)
-        
         titles = [item['title'] for item in data]
         titles.sort()
-        
+    
+    # Aggiungi voce manuale per il Saggio .txt
+    essay_title = "📄 RAG Systems Review 2025 (Full Text)"
+    if os.path.exists(ESSAY_PATH):
+        titles.insert(0, essay_title) # Mettilo in cima
+
+    # 2. Dropdown
+    if titles:
         selected_title = st.selectbox("Select a publication:", ["(Select...)"] + titles)
         
+        # 3. Visualizzazione Contenuto
         if selected_title != "(Select...)":
-            selected_item = next(item for item in data if item['title'] == selected_title)
             st.subheader(selected_title)
-            st.info(f"**ID**: {selected_item.get('id', 'N/A')}")
-            st.markdown(f"**Abstract**:\n{selected_item.get('publication_description', 'No description')}")
+            
+            # Caso A: È il saggio TXT
+            if selected_title == essay_title:
+                st.info("**Type**: Academic Systematic Review (Text File source)")
+                with open(ESSAY_PATH, 'r', encoding='utf-8') as f:
+                    essay_content = f.read()
+                st.text_area("Content Preview", essay_content, height=400)
+                
+            # Caso B: È un articolo dal JSON
+            else:
+                selected_item = next((item for item in data if item['title'] == selected_title), None)
+                if selected_item:
+                    st.info(f"**ID**: {selected_item.get('id', 'N/A')}")
+                    st.markdown(f"**Abstract**:\n{selected_item.get('publication_description', 'No description')}")
     else:
-        st.warning("JSON file not found.")
+        st.warning("No documents found (JSON missing?).")
 
     st.markdown("---")
     st.markdown("### ⚙️ Model Settings")
